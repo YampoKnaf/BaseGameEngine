@@ -50,10 +50,8 @@ vec3 Transform::GetRight()
 
 mat4 Transform::GetModelMatrix()
 {
-	return mat4();
-}
-
-
-Transform::~Transform()
-{
+	mat4 matrix = translate(mat4(), position);
+	matrix *= glm::scale(matrix, scale);
+	matrix *= mat4(rotation);
+	return matrix;
 }
