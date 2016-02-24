@@ -20,7 +20,7 @@ class Shader
 public:
 
 	static Shader* GetShader(const string vertexPath , const string fragmentPath);
-	GLuint inline GetShaderId();
+	GLuint GetShaderId();
 	void Use();
 	static void UnUse();
 

@@ -12,7 +12,7 @@ Shader* Shader::GetShader(const string vertexPath, const string fragmentPath)
 	return new Shader(vertexPath, fragmentPath);
 }
 
-inline GLuint Shader::GetShaderId()
+GLuint Shader::GetShaderId()
 {
 	return m_shaderId;
 }

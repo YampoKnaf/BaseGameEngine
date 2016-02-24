@@ -5,10 +5,29 @@
 																				sizeof(GLfloat) * sizeOfVertex, (GLvoid*)(OFFSET * sizeof(GLfloat)));\
 																OFFSET += SIZE_OF_PROPERTY;}
 
-
-
-Mesh::Mesh(aiMesh * mesh)
+int Mesh::NumOfUVChannels()
 {
+	return m_numOfUVChannels;
+}
+
+int Mesh::NumOfColorChannel()
+{
+	return m_numOfColorChannel;
+}
+
+bool Mesh::HasNormals()
+{
+	return m_hasNormals;
+}
+
+bool Mesh::HasTangens()
+{
+	return m_hasTangens;
+}
+
+bool Mesh::HasIndices()
+{
+	return m_hasIndices;
 }
 
 void Mesh::Draw()
