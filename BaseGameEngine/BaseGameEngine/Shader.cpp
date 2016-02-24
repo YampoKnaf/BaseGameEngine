@@ -29,8 +29,8 @@ void Shader::UnUse()
 
 Shader::Shader(const string vertexPath, const string fragmentPath)
 {
-	string vertexCode	= HelperClass::ReadFromFile(vertexPath.c_str());
-	string fragmentCode = HelperClass::ReadFromFile(fragmentPath.c_str());
+	string vertexCode	= ReadFromFile(vertexPath.c_str());
+	string fragmentCode = ReadFromFile(fragmentPath.c_str());
 	const char* tempChar;
 	GLuint m_vertexId;
 	GLuint m_fragmentId;

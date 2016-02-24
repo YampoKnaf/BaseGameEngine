@@ -1,6 +1,6 @@
 #include "HelperClass.h"
 
-std::string HelperClass::ReadFromFile(const GLchar * path)
+string ReadFromFile(const GLchar * path)
 {
 	std::string codeToReturn;
 	std::ifstream fileToOpen;

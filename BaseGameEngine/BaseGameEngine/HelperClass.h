@@ -8,11 +8,8 @@
 #include <gl\glew.h>
 #include <GLFW\glfw3.h>
 
+using namespace std;
 
-class HelperClass
-{
-public:
-	static std::string ReadFromFile(const GLchar* path);
-};
+string ReadFromFile(const GLchar* path);
 
 #endif

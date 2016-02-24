@@ -14,9 +14,9 @@ class Transform
 public:
 	Transform(vec3 position = vec3(0) , vec3 scale = vec3(1), quat rotation = quat(0 , 0 , 0 , 1));
 	
-	vec3 position;
-	vec3 scale;
-	quat rotation;
+	vec3 Position;
+	vec3 Scale;
+	quat Rotation;
 
 	//translate the object base on the world space
 	vec3 Translate(vec3 delta);

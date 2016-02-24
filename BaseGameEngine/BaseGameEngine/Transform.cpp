@@ -1,33 +1,33 @@
 #include "Transform.h"
 
-Transform::Transform(vec3 position, vec3 scale, quat rotation) :position(position), scale(scale), rotation(rotation) {}
+Transform::Transform(vec3 position, vec3 scale, quat rotation) :Position(position), Scale(scale), Rotation(rotation) {}
 
 vec3 Transform::Translate(vec3 delta)
 {
-	position += delta;
-	return position;
+	Position += delta;
+	return Position;
 }
 
 vec3 Transform::TranslateLocal(vec3 delta)
 {
 	mat4 modelMat = GetModelMatrix();
 	delta = vec3(modelMat * vec4(delta , 0));
-	position += delta;
-	return position;
+	Position += delta;
+	return Position;
 }
 
 quat Transform::Rotate(vec3 axis, GLfloat angle)
 {
-	rotation = rotate(rotation, angle, axis);
-	return rotation;
+	Rotation = rotate(Rotation, angle, axis);
+	return Rotation;
 }
 
 quat Transform::LocalRotate(vec3 axis, GLfloat angle)
 {
 	mat4 modelMat = GetModelMatrix();
 	axis = vec3(modelMat * vec4(axis, 0));
-	rotation = rotate(rotation, angle, axis);
-	return rotation;
+	Rotation = rotate(Rotation, angle, axis);
+	return Rotation;
 }
 
 vec3 Transform::GetForward()
@@ -50,8 +50,8 @@ vec3 Transform::GetRight()
 
 mat4 Transform::GetModelMatrix()
 {
-	mat4 matrix = translate(mat4(), position);
-	matrix *= glm::scale(matrix, scale);
-	matrix *= mat4(rotation);
+	mat4 matrix = translate(mat4(), Position);
+	matrix *= glm::scale(matrix, Scale);
+	matrix *= mat4(Rotation);
 	return matrix;
 }
