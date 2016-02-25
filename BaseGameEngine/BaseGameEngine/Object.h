@@ -21,12 +21,14 @@ public:
 	Component* AddComponent(Component* component);
 	Component* RemoveComponent(Component* component);
 
+	bool operator==(Object& object);
 private:
 	Transform transform;
 	Material* material = nullptr;
 	Mesh* mesh = nullptr;
 	vector<Component*> components;
-
+	int m_id;
+	static int id_gen;
 	friend void renderer(Object* object, mat4 viewMatrix);
 };
 #endif

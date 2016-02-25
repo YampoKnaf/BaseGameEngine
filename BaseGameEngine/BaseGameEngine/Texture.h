@@ -4,6 +4,9 @@
 #include <GL\glew.h>
 #include <unordered_map>
 #include <SOIL\SOIL.h>
+#include <iterator>
+
+#include "HelperClass.h"
 
 using namespace std;
 

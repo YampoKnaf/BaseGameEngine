@@ -9,6 +9,7 @@
 #include <gl\glew.h>
 #include <GLFW\glfw3.h>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -32,6 +33,16 @@ void RemoveElementInVector(vector<T>& vector, T& element)
 	if (index == -1)
 		return;
 	vector.erase(vector.begin() + index);
+}
+
+template<typename K , typename V>
+V* FindInUnorderMapValueByKey(unordered_map<K, V> map, K key)
+{
+	auto got = map.find(key);
+	if (got == map.end())
+		return nullptr;
+	else
+		return &got->second;
 }
 
 string ReadFromFile(const GLchar* path);

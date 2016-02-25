@@ -19,7 +19,7 @@ Texture::Texture(string fileName)
 	glGenerateMipmap(GL_TEXTURE_2D);
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	allTextures.insert({ fileName , this });
+	allTextures.insert({fileName , this });
 }
 
 Texture::~Texture()
@@ -29,12 +29,12 @@ Texture::~Texture()
 
 Texture * Texture::GetTexture(string fileName)
 {
-	unordered_map<std::string, Texture*>::const_iterator got = allTextures.find(fileName);
-
-	if (got == allTextures.end())
-		return new Texture(fileName);
-	else
-		return got->second;
+	Texture** tex = FindInUnorderMapValueByKey(allTextures, fileName);
+	if (tex)
+	{
+		return *tex;
+	}
+	return new Texture(fileName);
 }
 
 void Texture::Bind(int Index, string name , GLuint shaderID)

@@ -1,14 +1,17 @@
-#include <iostream>
-#include <gl\glew.h>
-#include <GLFW\glfw3.h>
-#include <assimp\Importer.hpp>
-#include <SOIL\SOIL.h>
+#include "Scene.h"
+
+#define WIDTH 500
+#define HEIGHT 500
 
 void main()
 {
-	glfwInit();
-	glewInit();
-	Assimp::Importer imp;
-	printf("hii world\n");
-	system("pause");
+	Screen screen(WIDTH, HEIGHT, "Test");
+	screen.CreateWindow();
+	Scene scene(&screen);
+	Object cameraObj;
+	Camera camera;
+	cameraObj.AddComponent(&camera);
+	scene.AddCamera(&camera);
+	scene.UpdateLoop();
+
 }
