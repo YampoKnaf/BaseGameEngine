@@ -7,7 +7,7 @@ class BasicMat : public Material
 {
 public:
 	BasicMat();
-	BasicMat(aiMaterial* material);//to support import mesh
+	BasicMat(aiMaterial* material, string directory);//to support import mesh
 	virtual void Bind(mat4 view, mat4 model);
 };
 #endif

@@ -13,7 +13,7 @@ using namespace std;
 class Texture
 {
 public:
-	Texture* GetTexture(string fileName);
+	static Texture* GetTexture(string fileName);
 	void Bind(int Index, string name , GLuint shaderID);
 
 private:

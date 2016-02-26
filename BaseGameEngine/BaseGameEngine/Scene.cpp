@@ -18,7 +18,7 @@ void Scene::AddObjectToLayer(string layerName, Object object)
 	{
 		objIndex = index;
 	}
-	//printf("%p , %p\n", &(m_allObjects[index]), objAddress);
+	
 	vector<unsigned int>* layerObjects;
 	if(FindInUnorderMapValueByKey(m_layers, layerName , &layerObjects))
 	{
@@ -52,7 +52,7 @@ void Scene::UpdateLoop()
 {
 	double lastTime = 0;
 	glfwSetTime(0);
-	for (int i = 0; i < m_allObjects.size(); i++)
+	for (unsigned int i = 0; i < m_allObjects.size(); i++)
 	{
 		m_allObjects[i].Start();
 	}
@@ -64,7 +64,7 @@ void Scene::UpdateLoop()
 		double delta = currentTime - lastTime;
 		lastTime = currentTime;
 
-		for (int i = 0; i < m_allObjects.size(); i++)
+		for (unsigned int i = 0; i < m_allObjects.size(); i++)
 		{
 			m_allObjects[i].Update(delta);
 		}

@@ -34,11 +34,11 @@ public:
 		}
 
 		string directory = fileName.substr(0, fileName.find_last_of('/'));
-		for (int i = 0; i < scene->mNumMeshes; i++)
+		for (unsigned int i = 0; i < scene->mNumMeshes; i++)
 		{
 			Mesh* mesh = new Mesh(scene->mMeshes[i]);
 			int matIndex = scene->mMeshes[i]->mMaterialIndex;
-			Mat* mat = new Mat(scene->mMaterials[matIndex]);
+			Mat* mat = new Mat(scene->mMaterials[matIndex] , directory);
 			Object object(mat, mesh);
 			AddObject(object);
 		}
