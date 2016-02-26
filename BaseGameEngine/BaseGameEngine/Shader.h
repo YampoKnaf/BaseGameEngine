@@ -31,7 +31,6 @@ private:
 
 	string m_vertexPath;
 	string m_fragmentPath;
-	
 
 	Shader(const string vertexPath, const string fragmentPath);
 	void CheckCompileState(GLuint shaderToCheck , int whatToCheck , string toPrintInError);

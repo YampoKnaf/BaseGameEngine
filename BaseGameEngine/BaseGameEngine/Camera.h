@@ -17,7 +17,7 @@ public:
 	//view port should be between 0 t0 1
 	Camera(GLfloat viewPortSizeX = 1, GLfloat viewPortSizeY = 1 , GLfloat viewPortPosX = 0 , GLfloat viewPortPosY = 0);
 
-	void Renderer(vector<Object*>& objects , Screen* screen);
+	void Renderer(vector<unsigned int>& layer, vector<Object>& allObjects, Screen * screen);
 	vector<string> GetAllLayers();
 	void AddLayer(string layerName);
 

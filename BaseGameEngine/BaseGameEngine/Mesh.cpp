@@ -109,16 +109,18 @@ Mesh::Mesh(aiMesh * mesh)
 			}
 		}
 	}
-	setMesh(vertices, &indices, sizeOfVertex);
+	setMesh(vertices, indices, sizeOfVertex);
 
 }
 
 
-void Mesh::setMesh(vector<GLfloat>& vertices, vector<GLuint>* indices, int sizeOfVertex)
+
+
+void Mesh::setMesh(vector<GLfloat>& vertices, vector<GLuint>& indices, int sizeOfVertex)
 {
 	glGenVertexArrays(1, &m_VAO);
 
-	m_size = vertices.size();
+	m_size = vertices.size() / sizeOfVertex;
 
 	GLuint VBO;
 	glGenBuffers(1, &VBO);
@@ -130,11 +132,12 @@ void Mesh::setMesh(vector<GLfloat>& vertices, vector<GLuint>* indices, int sizeO
 
 	if (m_hasIndices)
 	{
+		m_size = indices.size();
 		GLuint EBO;
 		glGenBuffers(1, &EBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices->size() * sizeof(GLuint), &indices[0][0], GL_STATIC_DRAW);
-		m_size = indices->size();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_size * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
+		
 	}
 
 	int index = 0;

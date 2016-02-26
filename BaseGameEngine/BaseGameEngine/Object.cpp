@@ -1,20 +1,24 @@
 #include "Object.h"
 int Object::id_gen = 0;
 
-Object::Object(Material * material, Mesh * mesh):material(material),mesh(mesh)
+Object::Object(Material * material, Mesh * mesh, Component* component):material(material),mesh(mesh)
 {
+	if (component != nullptr)
+		AddComponent(component);
 	m_id = id_gen++;
 }
 
+Object::Object(Component * component):Object(nullptr , nullptr , component){}
+
 void Object::Start()
 {
-	for (Component* comp : components)
+	for (Component* comp : m_components)
 		comp->Start();
 }
 
 void Object::Update(double deltaTime)
 {
-	for (Component* comp : components)
+	for (Component* comp : m_components)
 		comp->Update(deltaTime);
 }
 
@@ -35,20 +39,20 @@ Material * Object::SetMaterial(Material * material)
 
 Component * Object::AddComponent(Component * component)
 {
-	int index = FindElementInVector(components, component);
+	int index = FindElementInVector(m_components, component);
 	if (index != -1)
 		return component;
-	components.push_back(component);
+	m_components.push_back(component);
 	SetComponent(component, this, &this->transform);
 	return component;
 }
 
 Component * Object::RemoveComponent(Component * component)
 {
-	int index = FindElementInVector(components, component);
+	int index = FindElementInVector(m_components, component);
 	if (index == -1)
 		return nullptr;
-	components.erase(components.begin() + index);
+	m_components.erase(m_components.begin() + index);
 	return component;
 }
 

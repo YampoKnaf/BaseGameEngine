@@ -27,35 +27,35 @@ void Shader::UnUse()
 	glUseProgram(0);
 }
 
-Shader::Shader(const string vertexPath, const string fragmentPath)
+Shader::Shader(const string vertexPath, const string fragmentPath):m_vertexPath(vertexPath) , m_fragmentPath(fragmentPath)
 {
 	string vertexCode	= ReadFromFile(vertexPath.c_str());
 	string fragmentCode = ReadFromFile(fragmentPath.c_str());
 	const char* tempChar;
-	GLuint m_vertexId;
-	GLuint m_fragmentId;
+	GLuint vertexId;
+	GLuint fragmentId;
 
-	m_vertexId = glCreateShader(GL_VERTEX_SHADER);
+	vertexId = glCreateShader(GL_VERTEX_SHADER);
 	tempChar = vertexCode.c_str();
-	glShaderSource(m_vertexId, 1, &tempChar, NULL);
-	glCompileShader(m_vertexId);
-	CheckCompileState(m_vertexId , GL_COMPILE_STATUS, "VERTEX");
+	glShaderSource(vertexId, 1, &tempChar, NULL);
+	glCompileShader(vertexId);
+	CheckCompileState(vertexId , GL_COMPILE_STATUS, "VERTEX");
 
-	m_fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
-	tempChar = vertexCode.c_str();
-	glShaderSource(m_fragmentId, 1, &tempChar, NULL);
-	glCompileShader(m_fragmentId);
-	CheckCompileState(m_fragmentId, GL_COMPILE_STATUS, "FRAGMENT");
+	fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+	tempChar = fragmentCode.c_str();
+	glShaderSource(fragmentId, 1, &tempChar, NULL);
+	glCompileShader(fragmentId);
+	CheckCompileState(fragmentId, GL_COMPILE_STATUS, "FRAGMENT");
 
 	this->m_shaderId = glCreateProgram();
-	glAttachShader(this->m_shaderId, m_vertexId);
-	glAttachShader(this->m_shaderId, m_fragmentId);
+	glAttachShader(this->m_shaderId, vertexId);
+	glAttachShader(this->m_shaderId, fragmentId);
 	glLinkProgram(this->m_shaderId);
 
 	CheckCompileState(m_shaderId, GL_LINK_STATUS, "SHADER_PROGRAM");
 
-	glDeleteShader(m_vertexId);
-	glDeleteShader(m_fragmentId);
+	glDeleteShader(vertexId);
+	glDeleteShader(fragmentId);
 }
 
 void Shader::CheckCompileState(GLuint shaderToCheck, int whatToCheck, string toPrintInError)

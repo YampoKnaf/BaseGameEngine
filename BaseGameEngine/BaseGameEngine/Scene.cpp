@@ -7,30 +7,32 @@ Scene::Scene(Screen* screen)
 
 void Scene::AddObjectToLayer(string layerName, Object object)
 {
-	Object* objAddress;
+	unsigned int objIndex;
 	int index = FindElementInVector(m_allObjects, object);
 	if (index == -1)
 	{
 		m_allObjects.push_back(object);
-		objAddress = &m_allObjects[0] + m_allObjects.size() - 1;
+		objIndex = m_allObjects.size() - 1;
 	}
 	else
 	{
-		objAddress = &(m_allObjects[0]) + index;
+		objIndex = index;
 	}
-	vector<Object*>* layerObjects = FindInUnorderMapValueByKey(m_layers, layerName);
-	if (layerObjects)
+	//printf("%p , %p\n", &(m_allObjects[index]), objAddress);
+	vector<unsigned int>* layerObjects;
+	if(FindInUnorderMapValueByKey(m_layers, layerName , &layerObjects))
 	{
-		index = FindElementInVector(*layerObjects, objAddress);
+		index = FindElementInVector(*layerObjects, objIndex);
 		if (index == -1)
-			layerObjects->push_back(objAddress);
+			layerObjects->push_back(objIndex);
 		else
 			return;
 	}
 	else
 	{
-		m_layers.insert({ layerName , vector<Object*>(1 , objAddress) });
+		m_layers.insert({ layerName , vector<unsigned int>(1 , objIndex) });
 	}
+	
 }
 
 void Scene::AddObject(Object object)
@@ -73,9 +75,9 @@ void Scene::UpdateLoop()
 				vector<string> layers = camera->GetAllLayers();
 				for (string layer : layers)
 				{
-					vector<Object*>* layerObjects = FindInUnorderMapValueByKey(m_layers , layer);
-					if (layerObjects)
-						camera->Renderer(*layerObjects, screen);
+					vector<unsigned int>* layerObjects;
+					if(FindInUnorderMapValueByKey(m_layers , layer , &layerObjects))
+						camera->Renderer(*layerObjects , m_allObjects, screen);
 				}
 			}
 			screen->Clear();
@@ -90,4 +92,7 @@ void Scene::AddScreen(Screen * screen)
 		return;
 	m_screens.push_back(screen);
 }
+
+
+
 

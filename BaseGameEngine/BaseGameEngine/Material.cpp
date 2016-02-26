@@ -35,3 +35,14 @@ void Material::bindVector4(vec4 vector4, string vectorName)
 	GLint vectorLoc = glGetUniformLocation(shader->GetShaderId(), getProperyName(vectorName).c_str());
 	glUniform4f(vectorLoc, vector4.x, vector4.y , vector4.z , vector4.w);
 }
+
+void Material::bindMatrix4x4(mat4 matrix, string matrixName)
+{
+	glUniformMatrix4fv(glGetUniformLocation(shader->GetShaderId(), matrixName.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void Material::bindViewAndModelMatrix(mat4 view, mat4 model)
+{
+	bindMatrix4x4(view, "view");
+	bindMatrix4x4(model, "model");
+}

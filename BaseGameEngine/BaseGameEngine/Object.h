@@ -10,8 +10,9 @@
 class Object
 {
 public:
-	Object(Material* material = nullptr, Mesh* mesh = nullptr);
-	
+	Object(Material* material = nullptr, Mesh* mesh = nullptr , Component* component = nullptr);
+	Object(Component* component);
+
 	void Start();
 	void Update(double deltaTime);
 
@@ -26,7 +27,7 @@ private:
 	Transform transform;
 	Material* material = nullptr;
 	Mesh* mesh = nullptr;
-	vector<Component*> components;
+	vector<Component*> m_components;
 	int m_id;
 	static int id_gen;
 	friend void renderer(Object* object, mat4 viewMatrix);

@@ -9,18 +9,18 @@ Camera::Camera(GLfloat viewPortSizeX, GLfloat viewPortSizeY, GLfloat viewPortPos
 	layers.push_back("main");
 }
 
-void Camera::Renderer(vector<Object*>& objects , Screen* screen)
+void Camera::Renderer(vector<unsigned int>& layer , vector<Object>& allObjects , Screen* screen)
 {
 	int width = screen->GetWidth(), height = screen->GetHeight();
 	glViewport(width * viewPortPos.x, height * viewPortPos.y, width * viewPortSize.x, height * viewPortSize.y);
 	mat4 view = GetViewMatrix(screen);
-	for (Object* obj : objects)
-		renderer(obj, view);
+	for (unsigned int index : layer)
+		renderer(&allObjects[index], view);
 }
 
 vector<string> Camera::GetAllLayers()
 {
-	return vector<string>();
+	return vector<string>(layers);
 }
 
 void Camera::AddLayer(string layerName)
@@ -36,7 +36,7 @@ bool Camera::operator==(Camera & camera)
 mat4 Camera::GetViewMatrix(Screen* screen)
 {
 	mat4 projection = glm::perspective(45.f, (screen->GetWidth() * viewPortSize.x) / (screen->GetWidth() * viewPortSize.y), 0.1f, 1000.f);
-	return lookAt(transform->Position, transform->Position + transform->GetForward(), transform->GetUp());
+	return projection * lookAt(transform->Position, transform->Position + transform->GetForward(), transform->GetUp());
 }
 
 void Camera::Start(){}

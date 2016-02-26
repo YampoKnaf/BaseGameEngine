@@ -29,8 +29,8 @@ Texture::~Texture()
 
 Texture * Texture::GetTexture(string fileName)
 {
-	Texture** tex = FindInUnorderMapValueByKey(allTextures, fileName);
-	if (tex)
+	Texture** tex;
+	if (FindInUnorderMapValueByKey(allTextures, fileName, &tex))
 	{
 		return *tex;
 	}

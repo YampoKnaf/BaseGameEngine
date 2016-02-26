@@ -36,13 +36,16 @@ void RemoveElementInVector(vector<T>& vector, T& element)
 }
 
 template<typename K , typename V>
-V* FindInUnorderMapValueByKey(unordered_map<K, V> map, K key)
+bool FindInUnorderMapValueByKey(unordered_map<K, V>& map, K key, V** value)
 {
 	auto got = map.find(key);
 	if (got == map.end())
-		return nullptr;
+		return false;
 	else
-		return &got->second;
+	{
+		*value = &got->second;
+		return true;
+	}
 }
 
 string ReadFromFile(const GLchar* path);
