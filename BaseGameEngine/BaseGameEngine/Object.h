@@ -23,6 +23,7 @@ public:
 	Component* RemoveComponent(Component* component);
 
 	bool operator==(Object& object);
+	
 private:
 	Transform transform;
 	Material* material = nullptr;

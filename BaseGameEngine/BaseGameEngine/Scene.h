@@ -50,6 +50,8 @@ private:
 	unordered_map<string, vector<unsigned int>> m_layers;
 	vector<Camera*> m_cameras;
 	vector<Screen*> m_screens;
+
+
 };
 #endif
 
