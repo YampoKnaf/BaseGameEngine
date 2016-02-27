@@ -2,7 +2,7 @@
 
 void RotateObject::Start()
 {
-	//transform->Rotate(vec3(1, 0, 0), -3.14 / 2);
+	//transform->Rotate(vec3(1, 0, 0), -3.14);
 }
 
 void RotateObject::Update(double deltaTime)

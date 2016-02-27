@@ -9,13 +9,13 @@ Camera::Camera(GLfloat viewPortSizeX, GLfloat viewPortSizeY, GLfloat viewPortPos
 	layers.push_back("main");
 }
 
-void Camera::Renderer(vector<unsigned int>& layer , vector<Object>& allObjects , Screen* screen)
+void Camera::Renderer(vector<unsigned int>& layer , vector<Object*>& allObjects , Screen* screen)
 {
 	int width = screen->GetWidth(), height = screen->GetHeight();
 	glViewport(width * viewPortPos.x, height * viewPortPos.y, width * viewPortSize.x, height * viewPortSize.y);
 	mat4 view = GetViewMatrix(screen);
 	for (unsigned int index : layer)
-		renderer(&allObjects[index], view);
+		renderer(allObjects[index], view);
 }
 
 vector<string> Camera::GetAllLayers()

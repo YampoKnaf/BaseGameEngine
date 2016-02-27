@@ -8,10 +8,13 @@
 #include <string>
 #include <gl\glew.h>
 #include <GLFW\glfw3.h>
+#include <glm\glm.hpp>
+#include <assimp\scene.h>
 #include <vector>
 #include <unordered_map>
 
 using namespace std;
+using namespace glm;
 
 template<typename T>
 int FindElementInVector(vector<T>& vector, T& element)
@@ -49,4 +52,6 @@ bool FindInUnorderMapValueByKey(unordered_map<K, V>& map, K key, V** value)
 }
 
 string ReadFromFile(const GLchar* path);
+
+mat4 aiMatrix4x4ToMat4(aiMatrix4x4 aiMatrix4x4);
 #endif

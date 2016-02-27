@@ -6,9 +6,25 @@ Object::Object(Material * material, Mesh * mesh, Component* component):material(
 	if (component != nullptr)
 		AddComponent(component);
 	m_id = id_gen++;
+	name = "Object" + (char)('0' + m_id);
+}
+
+Object::Object(Material * material, Mesh * mesh, string name, Component * component):Object(material , mesh , component)
+{
+	this->name = name;
 }
 
 Object::Object(Component * component):Object(nullptr , nullptr , component){}
+
+Object::Object(string name)
+{
+	this->name = name;
+}
+
+Object::Object()
+{
+	name = "Object" + (char)('0' + m_id);
+}
 
 void Object::Start()
 {
@@ -54,6 +70,18 @@ Component * Object::RemoveComponent(Component * component)
 		return nullptr;
 	m_components.erase(m_components.begin() + index);
 	return component;
+}
+
+Object * Object::AddChild(Object * child)
+{
+	transform.AddChild(&child->transform);
+	return child;
+}
+
+Object * Object::SetParent(Object * parent)
+{
+	transform.SetParent(&parent->transform);
+	return parent;
 }
 
 bool Object::operator==(Object & object)

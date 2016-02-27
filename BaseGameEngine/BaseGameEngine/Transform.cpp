@@ -53,5 +53,34 @@ mat4 Transform::GetModelMatrix()
 	mat4 matrix = translate(mat4(), Position);
 	matrix *= glm::scale(matrix, Scale);
 	matrix *= mat4(Rotation);
+	if (parent != nullptr)
+		return parent->GetModelMatrix() * matrix;
 	return matrix;
+}
+
+void Transform::SetParent(Transform * parent)
+{
+	this->parent = parent;
+	parent->AddChild(this);
+}
+
+Transform * Transform::GetChild(int index)
+{
+	if (index < 0 || index >= children.size())
+		throw "Index Is Out Of Bounds";
+	return children[index];
+}
+
+Transform * Transform::AddChild(Transform * child)
+{
+	if (child == nullptr)
+		return child;
+	
+	child->parent = this;
+	
+	int index = FindElementInVector(children, child);
+	if (index != -1)
+		return child;
+	children.push_back(child);
+	return child;
 }

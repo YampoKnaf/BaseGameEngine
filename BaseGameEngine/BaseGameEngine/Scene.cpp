@@ -5,7 +5,7 @@ Scene::Scene(Screen* screen)
 	m_screens.push_back(screen);
 }
 
-void Scene::AddObjectToLayer(string layerName, Object object)
+void Scene::AddObjectToLayer(string layerName, Object* object)
 {
 	unsigned int objIndex;
 	int index = FindElementInVector(m_allObjects, object);
@@ -32,10 +32,9 @@ void Scene::AddObjectToLayer(string layerName, Object object)
 	{
 		m_layers.insert({ layerName , vector<unsigned int>(1 , objIndex) });
 	}
-	
 }
 
-void Scene::AddObject(Object object)
+void Scene::AddObject(Object* object)
 {
 	AddObjectToLayer("main", object);
 }
@@ -54,7 +53,7 @@ void Scene::UpdateLoop()
 	glfwSetTime(0);
 	for (unsigned int i = 0; i < m_allObjects.size(); i++)
 	{
-		m_allObjects[i].Start();
+		m_allObjects[i]->Start();
 	}
 
 	while (true)
@@ -66,7 +65,7 @@ void Scene::UpdateLoop()
 
 		for (unsigned int i = 0; i < m_allObjects.size(); i++)
 		{
-			m_allObjects[i].Update(delta);
+			m_allObjects[i]->Update(delta);
 		}
 		for (Screen* screen : m_screens)
 		{
@@ -93,7 +92,7 @@ void Scene::AddScreen(Screen * screen)
 	m_screens.push_back(screen);
 }
 
-vector<Object>& Scene::GetAllObjects()
+vector<Object*>& Scene::GetAllObjects()
 {
 	return m_allObjects;
 }

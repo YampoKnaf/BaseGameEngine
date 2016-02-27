@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __TRANSFORM__H
 #define __TRANSFORM__H
 
@@ -6,8 +5,12 @@
 #include <glm\glm.hpp>
 #include <glm\gtc\quaternion.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <vector>
+
+#include "HelperClass.h"
 
 using namespace glm;
+using namespace std;
 
 class Transform
 {
@@ -35,6 +38,12 @@ public:
 	vec3 GetRight();
 
 	mat4 GetModelMatrix();
+	void SetParent(Transform* parent);
+	Transform* GetChild(int index);
+	Transform* AddChild(Transform* child);
+private:
+	Transform* parent = nullptr;
+	vector<Transform*> children;
 };
 
 #endif

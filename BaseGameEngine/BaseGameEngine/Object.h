@@ -11,8 +11,10 @@ class Object
 {
 public:
 	Object(Material* material = nullptr, Mesh* mesh = nullptr , Component* component = nullptr);
+	Object(Material* materia, Mesh* mesh, string name , Component* component);
 	Object(Component* component);
-
+	Object(string name);
+	Object();
 	void Start();
 	void Update(double deltaTime);
 
@@ -22,6 +24,9 @@ public:
 	Component* AddComponent(Component* component);
 	Component* RemoveComponent(Component* component);
 
+	Object* AddChild(Object* child);
+	Object* SetParent(Object* parent);
+
 	bool operator==(Object& object);
 	
 private:
@@ -29,6 +34,7 @@ private:
 	Material* material = nullptr;
 	Mesh* mesh = nullptr;
 	vector<Component*> m_components;
+	string name;
 	int m_id;
 	static int id_gen;
 	friend void renderer(Object* object, mat4 viewMatrix);

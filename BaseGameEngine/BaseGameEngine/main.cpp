@@ -22,19 +22,8 @@ void main()
 	scene.AddCamera(&camera);
 	cameraObj.GetTransform().Position = vec3(0, -2, -5);
 	
-	/*BasicTexMat mat;
-	Texture* texture = Texture::GetTexture("./models/nanosuit2/leg_showroom_spec.png");
-	mat.SetTexture(texture);
-	Mesh mesh(PLANE);
-	Object object(&mat, &mesh);
-	scene.AddObject(object);*/
-	
-	scene.LoadFile<BasicTexMat>("./models/nanosuit2/Nanosuit.obj");
-	vector<Object>& allObjects = scene.GetAllObjects();
-	for (int i = 0; i < allObjects.size(); i++)
-	{
-		allObjects[i].AddComponent(new RotateObject);
-	}
+	Object* nanosuit = scene.LoadFile<BasicTexMat>("./models/nanosuit2/Nanosuit.obj");
+	nanosuit->AddComponent(new RotateObject());
 	scene.UpdateLoop();
 	
 	glfwTerminate();

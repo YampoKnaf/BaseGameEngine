@@ -6,6 +6,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "HelperClass.h"
 #include "Camera.h"
 
 using namespace std;
@@ -15,15 +16,15 @@ class Scene
 public:
 	Scene(Screen* screen);
 
-	void AddObjectToLayer(string layerName, Object object);
-	void AddObject(Object object);
+	void AddObjectToLayer(string layerName, Object* object);
+	void AddObject(Object* object);
 	void AddCamera(Camera* camera);
 	void UpdateLoop();//start the while loop
 	void AddScreen(Screen* screen);//supprt more then one screen
-	vector<Object>& GetAllObjects();
+	vector<Object*>& GetAllObjects();
 
 	template<class Mat>
-	void LoadFile(string fileName)
+	Object* LoadFile(string fileName)
 	{
 		Assimp::Importer import;
 		const aiScene* scene = import.ReadFile(fileName, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GenNormals);
@@ -31,26 +32,48 @@ public:
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
 			cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
-			return;
+			return nullptr;
 		}
 
 		string directory = fileName.substr(0, fileName.find_last_of('/'));
-		for (unsigned int i = 0; i < scene->mNumMeshes; i++)
+		Object* object = new Object(fileName.substr(fileName.find_last_of('/') + 1, fileName.size()));
+		AddObject(object);
+		for (unsigned int i = 0; i < scene->mRootNode->mNumChildren; i++)
 		{
-			Mesh* mesh = new Mesh(scene->mMeshes[i]);
-			int matIndex = scene->mMeshes[i]->mMaterialIndex;
-			Mat* mat = new Mat(scene->mMaterials[matIndex] , directory);
-			Object object(mat, mesh);
-			AddObject(object);
+			Object* child = LoadNode<Mat>(scene, scene->mRootNode->mChildren[i] , directory);
+			object->AddChild(child);
 		}
+		return object;
+	}
+
+	template<class Mat>
+	Object* LoadNode(const aiScene* scene, aiNode* node , string directory)
+	{
+		int meshIndex = node->mMeshes[0];
+		Mesh* mesh = new Mesh(scene->mMeshes[meshIndex]);
+		int matIndex = scene->mMeshes[meshIndex]->mMaterialIndex;
+		Mat* mat = new Mat(scene->mMaterials[matIndex], directory);
+		Object* object = new Object(mat, mesh);
+		Transform& trans = object->GetTransform();
+		mat4 matrix = aiMatrix4x4ToMat4(node->mTransformation.Inverse());
+		trans.Position = vec3(matrix * vec4(trans.Position , 1));
+		trans.Rotation = quat(matrix);
+		trans.Scale = vec3(scale(matrix, trans.Scale) * vec4(1));
+		AddObject(object);
+		for (int i = 0; i < node->mNumChildren; i++)
+		{
+			Object* child = LoadNode<Mat>(scene, node->mChildren[i] ,directory);
+			object->AddChild(object);
+		}
+		return object;
 	}
 
 private:
-	vector<Object> m_allObjects;
+	vector<Object*> m_allObjects;
 	unordered_map<string, vector<unsigned int>> m_layers;
 	vector<Camera*> m_cameras;
 	vector<Screen*> m_screens;
-
+	//unordered_map<string , unsigned int> 
 
 };
 #endif
