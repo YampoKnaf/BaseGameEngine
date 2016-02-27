@@ -20,12 +20,13 @@ public:
 	void AddCamera(Camera* camera);
 	void UpdateLoop();//start the while loop
 	void AddScreen(Screen* screen);//supprt more then one screen
+	vector<Object>& GetAllObjects();
 
 	template<class Mat>
 	void LoadFile(string fileName)
 	{
 		Assimp::Importer import;
-		const aiScene* scene = import.ReadFile(fileName, aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = import.ReadFile(fileName, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GenNormals);
 
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{

@@ -18,7 +18,7 @@ vec3 Transform::TranslateLocal(vec3 delta)
 
 quat Transform::Rotate(vec3 axis, GLfloat angle)
 {
-	Rotation = rotate(Rotation, angle, axis);
+	Rotation = normalize(rotate(Rotation, angle, axis));
 	return Rotation;
 }
 
@@ -26,7 +26,7 @@ quat Transform::LocalRotate(vec3 axis, GLfloat angle)
 {
 	mat4 modelMat = GetModelMatrix();
 	axis = vec3(modelMat * vec4(axis, 0));
-	Rotation = rotate(Rotation, angle, axis);
+	Rotation = normalize(rotate(Rotation, angle, axis));
 	return Rotation;
 }
 

@@ -35,8 +35,7 @@ void Screen::CreateWindow()
 	//Define the the color of the default backgraud
 	glClearColor(0, 0, 0, 0);
 
-	//Set all the callbacks
-
+	glEnable(GL_DEPTH_TEST);
 	//Add to static vector of screen pointers
 	allScreens.push_back(this);
 }

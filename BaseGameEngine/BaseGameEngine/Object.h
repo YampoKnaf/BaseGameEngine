@@ -3,7 +3,7 @@
 
 #include "Transform.h"
 #include "Mesh.h"
-#include "Material.h"
+#include "materials\Material.h"
 #include "Component.h"
 #include "HelperClass.h"
 

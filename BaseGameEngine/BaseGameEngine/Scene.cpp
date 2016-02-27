@@ -93,6 +93,11 @@ void Scene::AddScreen(Screen * screen)
 	m_screens.push_back(screen);
 }
 
+vector<Object>& Scene::GetAllObjects()
+{
+	return m_allObjects;
+}
+
 
 
 
