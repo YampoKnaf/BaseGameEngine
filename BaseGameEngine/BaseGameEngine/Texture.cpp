@@ -4,6 +4,13 @@ unordered_map<string, Texture*> Texture::allTextures;
 
 Texture::Texture(string fileName)
 {
+	int width, height, channels;
+	unsigned char* image = SOIL_load_image(fileName.c_str(), &width, &height, &channels, SOIL_LOAD_RGB);
+	if (!image)
+	{
+		textureID = -1;
+		return;
+	}
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	// Set our texture parameters
@@ -13,8 +20,7 @@ Texture::Texture(string fileName)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// Load, create texture and generate mipmaps
-	int width, height , channels;
-	unsigned char* image = SOIL_load_image(fileName.c_str(), &width, &height, &channels, SOIL_LOAD_RGB);
+	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	SOIL_free_image_data(image);
@@ -34,7 +40,13 @@ Texture * Texture::GetTexture(string fileName)
 	{
 		return *tex;
 	}
-	return new Texture(fileName);
+	Texture* texture = new Texture(fileName);
+	if (texture->textureID == -1)
+	{
+		delete texture;
+		return nullptr;
+	}
+	return texture;
 }
 
 void Texture::Bind(int Index, string name , GLuint shaderID)

@@ -7,12 +7,7 @@ BasicTexMat::BasicTexMat()
 
 BasicTexMat::BasicTexMat(aiMaterial * material , string directory):BasicTexMat()
 {
-	aiString pathFile;
-	int num = material->GetTextureCount(aiTextureType_DIFFUSE);
-	material->GetTexture(aiTextureType_DIFFUSE, 0, &pathFile);
-	string fileName(pathFile.C_Str());
-	fileName = directory + '/' + fileName;
-	texture = Texture::GetTexture(fileName);
+	texture = loadTexture(material, aiTextureType_DIFFUSE, directory);
 }
 
 void BasicTexMat::Bind(mat4 view, mat4 model)

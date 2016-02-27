@@ -1,7 +1,7 @@
 #include "Object.h"
 int Object::id_gen = 0;
 
-Object::Object(Material * material, Mesh * mesh, Component* component):material(material),mesh(mesh)
+Object::Object(Material * material, Mesh * mesh, Component* component):material(material),mesh(mesh),transform(this)
 {
 	if (component != nullptr)
 		AddComponent(component);
@@ -16,12 +16,12 @@ Object::Object(Material * material, Mesh * mesh, string name, Component * compon
 
 Object::Object(Component * component):Object(nullptr , nullptr , component){}
 
-Object::Object(string name)
+Object::Object(string name):transform(this)
 {
 	this->name = name;
 }
 
-Object::Object()
+Object::Object() : transform(this)
 {
 	name = "Object" + (char)('0' + m_id);
 }
@@ -41,6 +41,11 @@ void Object::Update(double deltaTime)
 Transform & Object::GetTransform()
 {
 	return transform;
+}
+
+Material* Object::GetMaterial()
+{
+	return material;
 }
 
 Mesh * Object::SetMesh(Mesh * mesh)
@@ -70,6 +75,11 @@ Component * Object::RemoveComponent(Component * component)
 		return nullptr;
 	m_components.erase(m_components.begin() + index);
 	return component;
+}
+
+Object * Object::GetChild(int index)
+{
+	return transform.GetChild(index)->object;
 }
 
 Object * Object::AddChild(Object * child)

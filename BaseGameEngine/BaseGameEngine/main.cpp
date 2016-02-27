@@ -7,6 +7,7 @@
 
 #include "BasicTexMat.h"
 #include "BasicMat.h"
+#include "AdDiffuseMat.h"
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
 
@@ -22,8 +23,14 @@ void main()
 	scene.AddCamera(&camera);
 	cameraObj.GetTransform().Position = vec3(0, -2, -5);
 	
-	Object* nanosuit = scene.LoadFile<BasicTexMat>("./models/nanosuit2/Nanosuit.obj");
+	Object* nanosuit = scene.LoadFile<BasicMat>("./models/nanosuit2/Nanosuit.obj");
 	nanosuit->AddComponent(new RotateObject());
+	nanosuit->GetTransform().Position -= vec3(1, 0, 0);
+	nanosuit = scene.LoadFile<BasicTexMat>("./models/nanosuit2/Nanosuit.obj");
+	nanosuit->AddComponent(new RotateObject());
+	nanosuit = scene.LoadFile<AdDiffuseMat>("./models/nanosuit2/Nanosuit.obj");
+	nanosuit->AddComponent(new RotateObject());
+	nanosuit->GetTransform().Position -= vec3(-1, 0, 0);
 	scene.UpdateLoop();
 	
 	glfwTerminate();

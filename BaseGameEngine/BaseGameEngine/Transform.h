@@ -12,10 +12,12 @@
 using namespace glm;
 using namespace std;
 
+class Object;
+
 class Transform
 {
 public:
-	Transform(vec3 position = vec3(0) , vec3 scale = vec3(1), quat rotation = quat(0 , 0 , 0 , 1));
+	Transform(Object* object, vec3 position = vec3(0) , vec3 scale = vec3(1), quat rotation = quat(0 , 0 , 0 , 1));
 	
 	vec3 Position;
 	vec3 Scale;
@@ -41,9 +43,11 @@ public:
 	void SetParent(Transform* parent);
 	Transform* GetChild(int index);
 	Transform* AddChild(Transform* child);
+	Object* object;
 private:
 	Transform* parent = nullptr;
 	vector<Transform*> children;
+	
 };
 
 #endif

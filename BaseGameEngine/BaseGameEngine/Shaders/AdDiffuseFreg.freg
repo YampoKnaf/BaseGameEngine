@@ -1,0 +1,30 @@
+#version 330 core
+
+in vec2 uv;
+in vec3 normal;
+in vec3 tangen;
+out vec4 color;
+
+uniform sampler2D diffuse;
+uniform sampler2D normalMap;
+uniform mat4 model;
+
+vec3 getNormal(vec3 normalColor)
+{
+	vec3 N = normalize(normal);  
+    vec3 T = normalize(tangen - dot(tangen , N) * N);
+	vec3 B = normalize(cross(T , N));
+    
+    mat3 TBN = transpose(mat3(T, B, N));  
+	TBN = inverse(TBN);
+	normalColor = normalColor * 2 - 1;
+	normalColor = TBN * normalColor;
+	return normalColor;
+}
+
+void main()
+{
+	vec3 norm = getNormal(texture(normalMap , uv).rgb);
+	float diff = max(0.3 , dot(norm , normalize(vec3(0 , 1 , -1))));
+    color = texture(diffuse , uv) * diff;
+} 

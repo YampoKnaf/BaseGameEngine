@@ -1,0 +1,21 @@
+#version 330 core
+  
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 Normal;
+layout (location = 2) in vec2 UV;
+layout (location = 3) in vec3 Tangen;
+
+uniform mat4 view;
+uniform mat4 model;
+
+out vec3 tangen;
+out vec2 uv;
+out vec3 normal;
+
+void main()
+{
+    gl_Position = view * model * vec4(position.x , position.y , position.z , 1.0);
+	uv = UV;
+	normal = (view * model * vec4(Normal , 0)).xyz;
+	tangen = (view * model * vec4(Tangen , 0)).xyz;
+}

@@ -9,7 +9,8 @@ string getProperyName(string baseName)
 
 void Material::bindTexture(Texture * texture, string textureName , GLuint index)
 {
-	texture->Bind(index, textureName, shader->GetShaderId());
+	if(texture)
+		texture->Bind(index, textureName, shader->GetShaderId());
 }
 
 void Material::bindFloat(GLfloat input, string floatName)
@@ -45,4 +46,63 @@ void Material::bindViewAndModelMatrix(mat4 view, mat4 model)
 {
 	bindMatrix4x4(view, "view");
 	bindMatrix4x4(model, "model");
+}
+
+char getReplaceChar(aiTextureType texType)
+{
+	switch (texType)
+	{
+	case aiTextureType_SPECULAR:
+		return 's';
+		break;
+	case aiTextureType_AMBIENT:
+		return 'a';
+		break;
+	case aiTextureType_EMISSIVE:
+		return 'e';
+		break;
+	case aiTextureType_HEIGHT:
+		return 'h';
+		break;
+	case aiTextureType_NORMALS:
+		return 'n';
+		break;
+	case aiTextureType_SHININESS:
+		return 's';
+		break;
+	case aiTextureType_OPACITY:
+		return 'o';
+		break;
+	case aiTextureType_DISPLACEMENT:
+		return 'd';
+		break;
+	case aiTextureType_REFLECTION:
+		return 'r';
+		break;
+	default:
+		return 'd';
+		break;
+	}
+}
+
+Texture * Material::loadTexture(aiMaterial * material, aiTextureType textureType , string directory)
+{
+	aiString path;
+	material->GetTexture(textureType, 0, &path);
+	string fileName = directory + '/' + string(path.C_Str());
+	Texture* texture = Texture::GetTexture(fileName);
+	if (texture != nullptr)
+		return texture;
+	if(textureType != aiTextureType_DIFFUSE)
+	{
+		if (loadTexture(material, aiTextureType_DIFFUSE, directory))
+		{
+			aiString str;
+			material->GetTexture(aiTextureType_DIFFUSE, 0 ,&str);
+			string fileName(str.C_Str());
+			fileName[fileName.find_last_of('d')] = getReplaceChar(textureType);
+			texture = Texture::GetTexture(directory + '/' + fileName);
+		}
+	}
+	return texture;
 }

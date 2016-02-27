@@ -19,11 +19,13 @@ public:
 	void Update(double deltaTime);
 
 	Transform& GetTransform();
+	Material* GetMaterial();
 	Mesh* SetMesh(Mesh* mesh);
 	Material* SetMaterial(Material* material);
 	Component* AddComponent(Component* component);
 	Component* RemoveComponent(Component* component);
 
+	Object* GetChild(int index);
 	Object* AddChild(Object* child);
 	Object* SetParent(Object* parent);
 

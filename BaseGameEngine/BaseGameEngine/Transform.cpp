@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-Transform::Transform(vec3 position, vec3 scale, quat rotation) :Position(position), Scale(scale), Rotation(rotation) {}
+Transform::Transform(Object* object ,vec3 position, vec3 scale, quat rotation) :Position(position), Scale(scale), Rotation(rotation) , object(object) {}
 
 vec3 Transform::Translate(vec3 delta)
 {

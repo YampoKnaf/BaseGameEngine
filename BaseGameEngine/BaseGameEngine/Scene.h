@@ -26,6 +26,9 @@ public:
 	template<class Mat>
 	Object* LoadFile(string fileName)
 	{
+		/*Object** object1;
+		if (FindInUnorderMapValueByKey(loadedModels, fileName, &object1))
+			return cloneMeshes<Mat>(*object1);*/
 		Assimp::Importer import;
 		const aiScene* scene = import.ReadFile(fileName, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GenNormals);
 
@@ -43,9 +46,18 @@ public:
 			Object* child = LoadNode<Mat>(scene, scene->mRootNode->mChildren[i] , directory);
 			object->AddChild(child);
 		}
+		//loadedModels.insert({ fileName , object });
+		import.FreeScene();
 		return object;
 	}
 
+private:
+	vector<Object*> m_allObjects;
+	unordered_map<string, vector<unsigned int>> m_layers;
+	vector<Camera*> m_cameras;
+	vector<Screen*> m_screens;
+	//unordered_map<string, Object*> loadedModels;
+	//unordered_map<string , unsigned int> 
 	template<class Mat>
 	Object* LoadNode(const aiScene* scene, aiNode* node , string directory)
 	{
@@ -67,14 +79,6 @@ public:
 		}
 		return object;
 	}
-
-private:
-	vector<Object*> m_allObjects;
-	unordered_map<string, vector<unsigned int>> m_layers;
-	vector<Camera*> m_cameras;
-	vector<Screen*> m_screens;
-	//unordered_map<string , unsigned int> 
-
 };
 #endif
 

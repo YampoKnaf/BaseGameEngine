@@ -8,6 +8,8 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#define BIND_TEXTURE(TEX , INDEX) bindTexture(TEX , #TEX , INDEX)
+
 using namespace glm;
 
 class Material
@@ -27,6 +29,8 @@ protected:
 	void bindVector4(vec4 vector4, string vectoiName);
 	void bindMatrix4x4(mat4 matrix, string matrixName);
 	void bindViewAndModelMatrix(mat4 view, mat4 model);
+
+	Texture* loadTexture(aiMaterial * material, aiTextureType textureType, string directory);
 };
 #endif
 
