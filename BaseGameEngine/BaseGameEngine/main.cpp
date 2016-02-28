@@ -21,16 +21,16 @@ void main()
 	Camera camera;
 	Object cameraObj(&camera);
 	scene.AddCamera(&camera);
-	cameraObj.GetTransform().Position = vec3(0, -2, -5);
+	cameraObj.transform.Position = vec3(0, -2, -5);
 	
 	Object* nanosuit = scene.LoadFile<AdDiffuseMat>("./models/generic_male_02/generic_male_02.obj");
 	nanosuit->AddComponent(new RotateObject());
-	nanosuit->GetTransform().Position -= vec3(1, 0, 0);
+	nanosuit->transform.Position -= vec3(1, 0, 0);
 	nanosuit = scene.LoadFile<BasicTexMat>("./models/nanosuit2/Nanosuit.obj");
 	nanosuit->AddComponent(new RotateObject());
 	nanosuit = scene.LoadFile<AdDiffuseMat>("./models/nanosuit2/Nanosuit.obj");
 	nanosuit->AddComponent(new RotateObject());
-	nanosuit->GetTransform().Position -= vec3(-1, 0, 0);
+	nanosuit->transform.Position -= vec3(-1, 0, 0);
 	scene.UpdateLoop();
 	
 	glfwTerminate();

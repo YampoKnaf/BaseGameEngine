@@ -39,13 +39,21 @@ public:
 	vec3 GetUp();
 	vec3 GetRight();
 
+	__declspec(property(get = GetUp)) vec3 up;
+	__declspec(property(get = GetRight)) vec3 right;
+	__declspec(property(get = GetForward)) vec3 forward;
+	__declspec(property(get = getParent, put = setParent))Transform* parent;
+
 	mat4 GetModelMatrix();
-	void SetParent(Transform* parent);
+	
 	Transform* GetChild(int index);
 	Transform* AddChild(Transform* child);
 	Object* object;
+	
+	void setParent(Transform* parent);
+	Transform* getParent();
 private:
-	Transform* parent = nullptr;
+	Transform* m_parent = nullptr;
 	vector<Transform*> children;
 	
 };

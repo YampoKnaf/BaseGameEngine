@@ -23,13 +23,22 @@ public:
 
 	bool operator==(Camera& camera);
 
+	__declspec(property(get = getViewPortSize, put = setViewPortSize))vec2 viewPortSize;
+	__declspec(property(get = getViewPortPos, put = setViewPortPos))vec2 viewPortPos;
+
+	void setViewPortSize(vec2 size);
+	vec2 getViewPortSize();
+
+	void setViewPortPos(vec2 pos);
+	vec2 getViewPortPos();
+
 private:
 	mat4 GetViewMatrix(Screen* screen);
 	virtual void Start();
 	virtual void Update(double deltaTime);
-	vector<string> layers;
-	vec2 viewPortSize;
-	vec2 viewPortPos;
+	vector<string> m_layers;
+	vec2 m_viewPortSize;
+	vec2 m_viewPortPos;
 
 	int m_id;
 	static int id_gen;

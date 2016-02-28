@@ -18,27 +18,32 @@ public:
 	void Start();
 	void Update(double deltaTime);
 
+	__declspec(property(get = getMesh, put = getMesh)) Mesh* mesh;
+	__declspec(property(get = getTransform)) Transform& transform;
+	__declspec(property(get = getParent, put = getParent)) Object* parent;
+	
 	vector<Component*> GetAllComponents();
-	Mesh * GetMesh();
-	Transform& GetTransform();
 	Material* GetMaterial();
-	Mesh* SetMesh(Mesh* mesh);
+	
 	Material* SetMaterial(Material* material);
 	Component* AddComponent(Component* component);
 	Component* RemoveComponent(Component* component);
 
 	Object* GetChild(int index);
 	Object* AddChild(Object* child);
-	Object* SetParent(Object* parent);
-
-	bool operator==(Object& object);
 	
-private:
-	Transform transform;
-	Material* material = nullptr;
-	Mesh* mesh = nullptr;
+	bool operator==(Object& object);
+	Transform& getTransform();
+	Mesh* setMesh(Mesh* mesh);
+	Mesh* getMesh();
+	Object* setParent(Object* parent);
+	Object* getParent();
+private:	
+	Transform m_transform;
+	Material* m_material = nullptr;
+	Mesh* m_mesh = nullptr;
 	vector<Component*> m_components;
-	string name;
+	string m_name;
 	int m_id;
 	static int id_gen;
 	friend void renderer(Object* object, mat4 viewMatrix);

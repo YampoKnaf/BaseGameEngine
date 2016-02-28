@@ -101,7 +101,7 @@ void Scene::freeAll()
 	vector<Component*> allComponents;
 	for (Object* object : m_allObjects)
 	{
-		Mesh* mesh = object->GetMesh();
+		Mesh* mesh = object->mesh;
 		if (mesh)
 		{
 			int index = FindElementInVector(allMeshes, mesh);

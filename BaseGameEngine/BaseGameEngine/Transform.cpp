@@ -53,15 +53,20 @@ mat4 Transform::GetModelMatrix()
 	mat4 matrix = translate(mat4(), Position);
 	matrix *= glm::scale(matrix, Scale);
 	matrix *= mat4(Rotation);
-	if (parent != nullptr)
-		return parent->GetModelMatrix() * matrix;
+	if (m_parent != nullptr)
+		return m_parent->GetModelMatrix() * matrix;
 	return matrix;
 }
 
-void Transform::SetParent(Transform * parent)
+void Transform::setParent(Transform * parent)
 {
-	this->parent = parent;
+	this->m_parent = parent;
 	parent->AddChild(this);
+}
+
+Transform * Transform::getParent()
+{
+	return m_parent;
 }
 
 Transform * Transform::GetChild(int index)
@@ -76,7 +81,7 @@ Transform * Transform::AddChild(Transform * child)
 	if (child == nullptr)
 		return child;
 	
-	child->parent = this;
+	child->m_parent = this;
 	
 	int index = FindElementInVector(children, child);
 	if (index != -1)

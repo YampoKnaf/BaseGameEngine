@@ -55,7 +55,6 @@ private:
 	unordered_map<string, vector<unsigned int>> m_layers;
 	vector<Camera*> m_cameras;
 	vector<Screen*> m_screens;
-
 	void freeAll();
 
 	template<class Mat>
@@ -67,7 +66,7 @@ private:
 		int matIndex = scene->mMeshes[meshIndex]->mMaterialIndex;
 		Mat* mat = new Mat(scene->mMaterials[matIndex], directory);
 		Object* object = new Object(mat, mesh);
-		Transform& trans = object->GetTransform();
+		Transform& trans = object->getTransform();
 		mat4 matrix = aiMatrix4x4ToMat4(node->mTransformation.Inverse());
 		trans.Position = vec3(matrix * vec4(trans.Position , 1));
 		trans.Rotation = quat(matrix);

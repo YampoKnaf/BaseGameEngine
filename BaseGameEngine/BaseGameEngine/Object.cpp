@@ -1,12 +1,12 @@
 #include "Object.h"
 int Object::id_gen = 0;
 
-Object::Object(Material * material, Mesh * mesh, Component* component):material(material),mesh(mesh),transform(this)
+Object::Object(Material * material, Mesh * mesh, Component* component):m_material(material),m_mesh(mesh),m_transform(this)
 {
 	if (component != nullptr)
 		AddComponent(component);
 	m_id = id_gen++;
-	name = "Object" + (char)('0' + m_id);
+	m_name = "Object" + (char)('0' + m_id);
 }
 
 vector<Component*> Object::GetAllComponents()
@@ -14,26 +14,26 @@ vector<Component*> Object::GetAllComponents()
 	return vector<Component*>(m_components);
 }
 
-Mesh* Object::GetMesh()
+Mesh* Object::getMesh()
 {
-	return this->mesh;
+	return this->m_mesh;
 }
 
 Object::Object(Material * material, Mesh * mesh, string name, Component * component):Object(material , mesh , component)
 {
-	this->name = name;
+	this->m_name = name;
 }
 
 Object::Object(Component * component):Object(nullptr , nullptr , component){}
 
-Object::Object(string name):transform(this)
+Object::Object(string name):m_transform(this)
 {
-	this->name = name;
+	this->m_name = name;
 }
 
-Object::Object() : transform(this)
+Object::Object() : m_transform(this)
 {
-	name = "Object" + (char)('0' + m_id);
+	m_name = "Object" + (char)('0' + m_id);
 }
 
 void Object::Start()
@@ -48,24 +48,24 @@ void Object::Update(double deltaTime)
 		comp->Update(deltaTime);
 }
 
-Transform & Object::GetTransform()
+Transform & Object::getTransform()
 {
-	return transform;
+	return m_transform;
 }
 
 Material* Object::GetMaterial()
 {
-	return material;
+	return m_material;
 }
 
-Mesh * Object::SetMesh(Mesh * mesh)
+Mesh * Object::setMesh(Mesh * mesh)
 {
-	return this->mesh = mesh;
+	return this->m_mesh = mesh;
 }
 
 Material * Object::SetMaterial(Material * material)
 {
-	return this->material = material;
+	return this->m_material = material;
 }
 
 Component * Object::AddComponent(Component * component)
@@ -74,7 +74,7 @@ Component * Object::AddComponent(Component * component)
 	if (index != -1)
 		return component;
 	m_components.push_back(component);
-	SetComponent(component, this, &this->transform);
+	SetComponent(component, this, &this->m_transform);
 	return component;
 }
 
@@ -89,19 +89,26 @@ Component * Object::RemoveComponent(Component * component)
 
 Object * Object::GetChild(int index)
 {
-	return transform.GetChild(index)->object;
+	return m_transform.GetChild(index)->object;
 }
 
 Object * Object::AddChild(Object * child)
 {
-	transform.AddChild(&child->transform);
+	m_transform.AddChild(&child->m_transform);
 	return child;
 }
 
-Object * Object::SetParent(Object * parent)
+Object * Object::setParent(Object * parent)
 {
-	transform.SetParent(&parent->transform);
+	m_transform.parent = &parent->m_transform;
 	return parent;
+}
+
+Object * Object::getParent()
+{
+	if (transform.parent)
+		return transform.parent->object;
+	return nullptr;
 }
 
 bool Object::operator==(Object & object)
@@ -117,8 +124,8 @@ void SetComponent(Component* component, Object* object, Transform* transform)
 
 void renderer(Object* object, mat4 viewMatrix)
 {
-	if (!object->mesh || !object->material)
+	if (!object->m_mesh || !object->m_material)
 		return;
-	object->material->Bind(viewMatrix, object->transform.GetModelMatrix());
-	object->mesh->Draw();
+	object->m_material->Bind(viewMatrix, object->m_transform.GetModelMatrix());
+	object->m_mesh->Draw();
 }
