@@ -18,6 +18,7 @@ public:
 	void Start();
 	void Update(double deltaTime);
 
+	Mesh * GetMesh();
 	Transform& GetTransform();
 	Material* GetMaterial();
 	Mesh* SetMesh(Mesh* mesh);

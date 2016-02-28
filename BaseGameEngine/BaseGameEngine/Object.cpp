@@ -9,6 +9,11 @@ Object::Object(Material * material, Mesh * mesh, Component* component):material(
 	name = "Object" + (char)('0' + m_id);
 }
 
+Mesh* Object::GetMesh()
+{
+	return this->mesh;
+}
+
 Object::Object(Material * material, Mesh * mesh, string name, Component * component):Object(material , mesh , component)
 {
 	this->name = name;

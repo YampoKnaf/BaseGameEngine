@@ -38,6 +38,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
 	FIND_SCREEN;
 	screen->m_keyState[key] = action;
+	if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+bool Screen::ShouldClose()
+{
+	return glfwWindowShouldClose(m_window);
 }
 
 Screen::Screen(int width, int height, string title , bool resizeable):m_width(width) , m_height(height) , m_title(title) , m_resizeable(resizeable)

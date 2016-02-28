@@ -58,6 +58,14 @@ void Scene::UpdateLoop()
 
 	while (true)
 	{
+		bool shouldBeClose = true;
+		for (Screen* screen : m_screens)
+		{
+			if (!screen->ShouldClose())
+				shouldBeClose = false;
+		}
+		if (shouldBeClose)
+			break;
 		glfwPollEvents();
 		double currentTime = glfwGetTime();
 		double delta = currentTime - lastTime;
@@ -81,6 +89,51 @@ void Scene::UpdateLoop()
 			}
 			screen->Clear();
 		}
+	}
+	freeAll();
+}
+
+void Scene::freeAll()
+{
+	vector<Mesh*> allMeshes;
+	vector<Material*> allMaterials;
+	vector<Texture*> allTextures;
+	for (Object* object : m_allObjects)
+	{
+		Mesh* mesh = object->GetMesh();
+		if (mesh)
+		{
+			int index = FindElementInVector(allMeshes, mesh);
+			if (index == -1)
+				allMeshes.push_back(mesh);
+		}
+		Material* mat = object->GetMaterial();
+		if (mat)
+		{
+			int index = FindElementInVector(allMaterials, mat);
+			if (index == -1)
+				allMaterials.push_back(mat);
+		}
+		delete object;
+	}
+	for (Mesh* mesh : allMeshes)
+	{
+		delete mesh;
+	}
+	for (Material* mat : allMaterials)
+	{
+		/*vector<Texture*> textures = mat->GetAllTextures();
+		for (Texture* tex : textures)
+		{
+			int index = FindElementInVector(allTextures, tex);
+			if (index == -1)
+				allTextures.push_back(tex);
+		}*/
+		delete mat;
+	}
+	for (Texture* tex : allTextures)
+	{
+		delete tex;
 	}
 }
 

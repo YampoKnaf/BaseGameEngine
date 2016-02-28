@@ -9,6 +9,7 @@ public:
 	AnimatedMat();
 	AnimatedMat(aiMaterial* material, string directory);//to support import mesh
 	virtual void Bind(mat4 view, mat4 model);
+	virtual vector<Texture*> GetAllTextures();
 };
 
 #endif

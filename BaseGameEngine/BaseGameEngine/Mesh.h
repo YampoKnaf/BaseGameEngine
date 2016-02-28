@@ -5,6 +5,9 @@
 #include <glm\glm.hpp>
 #include <assimp\scene.h>
 #include <vector>
+#include <unordered_map>
+
+#include "HelperClass.h"
 
 using namespace std;
 using namespace glm;
@@ -17,7 +20,8 @@ enum ShapesTypes
 class Mesh
 {
 public:
-	Mesh(aiMesh* mesh);
+	
+	static Mesh* GetMesh(aiMesh* mesh, string fileName , int index);
 	Mesh(ShapesTypes shapeType, int resX = 10, int resY = 10);
 
 	int NumOfUVChannels();
@@ -35,7 +39,9 @@ private:
 	bool m_hasIndices;
 	GLuint m_VAO;//mesh id in the openGL
 	int m_size;//number of vertices of if hasIndices number of indices
-
+	Mesh(aiMesh* mesh);
+	
+	static unordered_map<string, Mesh*> allImportedMeshes;
 	void setMesh(vector<GLfloat>& vertices, vector<GLuint>& indices, int sizeOfVertex);
 };
 

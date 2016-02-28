@@ -12,6 +12,7 @@ using namespace std;
 class Screen
 {
 public:
+	bool ShouldClose();
 	Screen(int width, int height, string title , bool resizeable = false);
 	void CreateWindow();
 

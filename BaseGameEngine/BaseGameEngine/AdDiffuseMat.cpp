@@ -30,3 +30,8 @@ void AdDiffuseMat::Bind(mat4 view, mat4 model)
 	BIND_TEXTURE(diffuse, 0);
 	BIND_TEXTURE(normalMap , 1);
 }
+
+vector<Texture*> AdDiffuseMat::GetAllTextures()
+{
+	return vector<Texture*>() = { diffuse , normalMap };
+}

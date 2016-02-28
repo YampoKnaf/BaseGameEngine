@@ -15,11 +15,11 @@ using namespace glm;
 class Material
 {
 public:
+	//virtual vector<Texture*> GetAllTextures() = 0;
 	virtual void Bind(mat4 view , mat4 model) = 0;
 
 protected:
 	Shader* shader;
-
 
 	//Help to bind the properties
 	void bindTexture(Texture* texture, string textureName , GLuint index);

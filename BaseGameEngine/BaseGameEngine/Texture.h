@@ -15,11 +15,11 @@ class Texture
 public:
 	static Texture* GetTexture(string fileName);
 	void Bind(int Index, string name , GLuint shaderID);
+	~Texture();
 
 private:
 	GLuint textureID;
 	Texture(string fileName);
-	~Texture();
 
 	static unordered_map<string, Texture*> allTextures;
 };

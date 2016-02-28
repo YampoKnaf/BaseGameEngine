@@ -5,6 +5,8 @@
 																				sizeof(GLfloat) * sizeOfVertex, (GLvoid*)(OFFSET * sizeof(GLfloat)));\
 																OFFSET += SIZE_OF_PROPERTY;}
 
+unordered_map<string, Mesh*> Mesh::allImportedMeshes;
+
 int Mesh::NumOfUVChannels()
 {
 	return m_numOfUVChannels;
@@ -113,9 +115,6 @@ Mesh::Mesh(aiMesh * mesh)
 
 }
 
-
-
-
 void Mesh::setMesh(vector<GLfloat>& vertices, vector<GLuint>& indices, int sizeOfVertex)
 {
 	glGenVertexArrays(1, &m_VAO);
@@ -161,4 +160,19 @@ void Mesh::setMesh(vector<GLfloat>& vertices, vector<GLuint>& indices, int sizeO
 		SET_VERTEX_PROPERTY(4 * m_numOfColorChannel, offSet, index);
 
 	glBindVertexArray(0);
+}
+
+Mesh * Mesh::GetMesh(aiMesh * mesh, string fileName , int index)
+{
+	stringstream meshName;
+	meshName << fileName << "::" << index;
+	fileName = meshName.str();
+	Mesh** selectedMesh;
+	if (FindInUnorderMapValueByKey(Mesh::allImportedMeshes, fileName, &selectedMesh))
+	{
+		return *selectedMesh;
+	}
+	Mesh* newMesh = new Mesh(mesh);
+	allImportedMeshes.insert({ fileName , newMesh });
+	return newMesh;
 }

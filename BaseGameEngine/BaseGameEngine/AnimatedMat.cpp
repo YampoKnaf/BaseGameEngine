@@ -15,3 +15,8 @@ void AnimatedMat::Bind(mat4 view, mat4 model)
 {
 }
 
+vector<Texture*> AnimatedMat::GetAllTextures()
+{
+	return vector<Texture*>();
+}
+

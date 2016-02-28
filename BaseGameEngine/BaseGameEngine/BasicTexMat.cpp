@@ -17,6 +17,11 @@ void BasicTexMat::Bind(mat4 view, mat4 model)
 	bindTexture(texture, "diffuse", 0);
 }
 
+vector<Texture*> BasicTexMat::GetAllTextures()
+{
+	return vector<Texture*>() = { texture };
+}
+
 void BasicTexMat::SetTexture(Texture * texture)
 {
 	this->texture = texture;

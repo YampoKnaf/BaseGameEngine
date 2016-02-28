@@ -13,6 +13,7 @@ public:
 	Texture* SetNormalMap(Texture* texture);
 
 	virtual void Bind(mat4 view, mat4 model);
+	virtual vector<Texture*> GetAllTextures();
 
 private:
 	Texture* diffuse = nullptr;

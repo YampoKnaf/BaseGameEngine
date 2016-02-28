@@ -26,9 +26,7 @@ public:
 	template<class Mat>
 	Object* LoadFile(string fileName)
 	{
-		/*Object** object1;
-		if (FindInUnorderMapValueByKey(loadedModels, fileName, &object1))
-			return cloneMeshes<Mat>(*object1);*/
+		string directory = fileName.substr(0, fileName.find_last_of('/'));
 		Assimp::Importer import;
 		const aiScene* scene = import.ReadFile(fileName, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GenNormals);
 
@@ -37,32 +35,35 @@ public:
 			cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
 			return nullptr;
 		}
-
-		string directory = fileName.substr(0, fileName.find_last_of('/'));
-		Object* object = new Object(fileName.substr(fileName.find_last_of('/') + 1, fileName.size()));
+	
+		string objName = fileName.substr(fileName.find_last_of('/') + 1, fileName.size());
+		Object* object = new Object(objName);
 		AddObject(object);
+		int meshIndex = 0;
 		for (unsigned int i = 0; i < scene->mRootNode->mNumChildren; i++)
 		{
-			Object* child = LoadNode<Mat>(scene, scene->mRootNode->mChildren[i] , directory);
+			Object* child = LoadNode<Mat>(scene, scene->mRootNode->mChildren[i] , directory , objName , &meshIndex);
 			object->AddChild(child);
 		}
-		//loadedModels.insert({ fileName , object });
 		import.FreeScene();
 		return object;
 	}
+
 
 private:
 	vector<Object*> m_allObjects;
 	unordered_map<string, vector<unsigned int>> m_layers;
 	vector<Camera*> m_cameras;
 	vector<Screen*> m_screens;
-	//unordered_map<string, Object*> loadedModels;
-	//unordered_map<string , unsigned int> 
+
+	void freeAll();
+
 	template<class Mat>
-	Object* LoadNode(const aiScene* scene, aiNode* node , string directory)
+	Object* LoadNode(const aiScene* scene, aiNode* node , string directory , string fileName , int* index)
 	{
 		int meshIndex = node->mMeshes[0];
-		Mesh* mesh = new Mesh(scene->mMeshes[meshIndex]);
+		Mesh* mesh = Mesh::GetMesh(scene->mMeshes[meshIndex], directory + '/' + fileName , *index);
+		(*index)++;
 		int matIndex = scene->mMeshes[meshIndex]->mMaterialIndex;
 		Mat* mat = new Mat(scene->mMaterials[matIndex], directory);
 		Object* object = new Object(mat, mesh);
@@ -74,7 +75,7 @@ private:
 		AddObject(object);
 		for (int i = 0; i < node->mNumChildren; i++)
 		{
-			Object* child = LoadNode<Mat>(scene, node->mChildren[i] ,directory);
+			Object* child = LoadNode<Mat>(scene, node->mChildren[i] ,directory,fileName , index);
 			object->AddChild(object);
 		}
 		return object;
