@@ -44,7 +44,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 bool Screen::ShouldClose()
 {
-	return glfwWindowShouldClose(m_window);
+	return glfwWindowShouldClose(m_window) != 0;
 }
 
 Screen::Screen(int width, int height, string title , bool resizeable):m_width(width) , m_height(height) , m_title(title) , m_resizeable(resizeable)

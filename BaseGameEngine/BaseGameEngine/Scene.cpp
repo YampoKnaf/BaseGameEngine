@@ -98,6 +98,7 @@ void Scene::freeAll()
 	vector<Mesh*> allMeshes;
 	vector<Material*> allMaterials;
 	vector<Texture*> allTextures;
+	vector<Component*> allComponents;
 	for (Object* object : m_allObjects)
 	{
 		Mesh* mesh = object->GetMesh();
@@ -114,6 +115,14 @@ void Scene::freeAll()
 			if (index == -1)
 				allMaterials.push_back(mat);
 		}
+		vector<Component*> components = object->GetAllComponents();
+		for (Component* comp : components)
+		{
+			int index = FindElementInVector(allComponents, comp);
+			if (index == -1)
+				allComponents.push_back(comp);
+		}
+
 		delete object;
 	}
 	for (Mesh* mesh : allMeshes)
@@ -122,18 +131,22 @@ void Scene::freeAll()
 	}
 	for (Material* mat : allMaterials)
 	{
-		/*vector<Texture*> textures = mat->GetAllTextures();
+		vector<Texture*> textures = mat->GetAllTextures();
 		for (Texture* tex : textures)
 		{
 			int index = FindElementInVector(allTextures, tex);
 			if (index == -1)
 				allTextures.push_back(tex);
-		}*/
+		}
 		delete mat;
 	}
 	for (Texture* tex : allTextures)
 	{
 		delete tex;
+	}
+	for (Component* comp : allComponents)
+	{
+		delete comp;
 	}
 }
 

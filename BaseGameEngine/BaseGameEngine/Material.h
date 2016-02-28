@@ -1,21 +1,23 @@
-#ifndef __MATERIAL
-#define __MATERIAL
+#ifndef __MATERIAL__H
+#define __MATERIAL__H
 
 #include <glm\glm.hpp>
 #include <assimp\scene.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <string>
 
 #include "Shader.h"
 #include "Texture.h"
 
 #define BIND_TEXTURE(TEX , INDEX) bindTexture(TEX , #TEX , INDEX)
 
+using namespace std;
 using namespace glm;
 
 class Material
 {
 public:
-	//virtual vector<Texture*> GetAllTextures() = 0;
+	virtual vector<Texture*> GetAllTextures() = 0;
 	virtual void Bind(mat4 view , mat4 model) = 0;
 
 protected:

@@ -7,5 +7,5 @@ void RotateObject::Start()
 
 void RotateObject::Update(double deltaTime)
 {
-	transform->Rotate(vec3(0, 1, 0), deltaTime);
+	transform->Rotate(vec3(0, 1, 0), (GLfloat)deltaTime);
 }

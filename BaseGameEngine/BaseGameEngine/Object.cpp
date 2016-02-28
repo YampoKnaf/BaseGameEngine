@@ -9,6 +9,11 @@ Object::Object(Material * material, Mesh * mesh, Component* component):material(
 	name = "Object" + (char)('0' + m_id);
 }
 
+vector<Component*> Object::GetAllComponents()
+{
+	return vector<Component*>(m_components);
+}
+
 Mesh* Object::GetMesh()
 {
 	return this->mesh;

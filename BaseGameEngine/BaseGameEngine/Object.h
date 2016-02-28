@@ -3,7 +3,7 @@
 
 #include "Transform.h"
 #include "Mesh.h"
-#include "materials\Material.h"
+#include "Material.h"
 #include "Component.h"
 #include "HelperClass.h"
 
@@ -18,6 +18,7 @@ public:
 	void Start();
 	void Update(double deltaTime);
 
+	vector<Component*> GetAllComponents();
 	Mesh * GetMesh();
 	Transform& GetTransform();
 	Material* GetMaterial();

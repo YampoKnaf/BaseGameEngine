@@ -73,7 +73,7 @@ private:
 		trans.Rotation = quat(matrix);
 		trans.Scale = vec3(scale(matrix, trans.Scale) * vec4(1));
 		AddObject(object);
-		for (int i = 0; i < node->mNumChildren; i++)
+		for (unsigned int i = 0; i < node->mNumChildren; i++)
 		{
 			Object* child = LoadNode<Mat>(scene, node->mChildren[i] ,directory,fileName , index);
 			object->AddChild(object);

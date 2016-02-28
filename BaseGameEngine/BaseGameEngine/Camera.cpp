@@ -12,7 +12,7 @@ Camera::Camera(GLfloat viewPortSizeX, GLfloat viewPortSizeY, GLfloat viewPortPos
 void Camera::Renderer(vector<unsigned int>& layer , vector<Object*>& allObjects , Screen* screen)
 {
 	int width = screen->GetWidth(), height = screen->GetHeight();
-	glViewport(width * viewPortPos.x, height * viewPortPos.y, width * viewPortSize.x, height * viewPortSize.y);
+	glViewport(width * (GLint)viewPortPos.x, height * (GLint)viewPortPos.y, width * (GLint)viewPortSize.x, height * (GLint)viewPortSize.y);
 	mat4 view = GetViewMatrix(screen);
 	for (unsigned int index : layer)
 		renderer(allObjects[index], view);

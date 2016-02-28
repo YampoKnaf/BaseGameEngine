@@ -64,7 +64,7 @@ Mesh::Mesh(aiMesh * mesh)
 		sizeOfVertex += 4 * m_numOfColorChannel;
 	}
 	m_hasIndices = mesh->HasFaces();
-	for (int i = 0; i < mesh->mNumVertices; i++)
+	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		vertices.push_back(mesh->mVertices[i].x);
 		vertices.push_back(mesh->mVertices[i].y);
@@ -102,10 +102,10 @@ Mesh::Mesh(aiMesh * mesh)
 
 	if (m_hasIndices)
 	{
-		for (int i = 0; i < mesh->mNumFaces; i++)
+		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 		{
 			aiFace* face = mesh->mFaces + i;
-			for (int indexNum = 0; indexNum < face->mNumIndices;indexNum++)
+			for (unsigned int indexNum = 0; indexNum < face->mNumIndices;indexNum++)
 			{
 				indices.push_back(face->mIndices[indexNum]);
 			}

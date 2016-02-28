@@ -66,7 +66,7 @@ void Transform::SetParent(Transform * parent)
 
 Transform * Transform::GetChild(int index)
 {
-	if (index < 0 || index >= children.size())
+	if (index < 0 || index >= (int)children.size())
 		throw "Index Is Out Of Bounds";
 	return children[index];
 }
