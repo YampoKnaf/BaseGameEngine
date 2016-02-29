@@ -16,6 +16,9 @@
 using namespace std;
 using namespace glm;
 
+#define PROPERTY(GET,SET) __declspec(property(get = GET, put = SET))
+#define PROPERTY(GET) __declspec(property(get = GET))
+
 template<typename T>
 int FindElementInVector(vector<T>& vector, T& element)
 {

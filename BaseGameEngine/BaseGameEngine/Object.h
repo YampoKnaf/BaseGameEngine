@@ -18,9 +18,9 @@ public:
 	void Start();
 	void Update(double deltaTime);
 
-	__declspec(property(get = getMesh, put = getMesh)) Mesh* mesh;
-	__declspec(property(get = getTransform)) Transform& transform;
-	__declspec(property(get = getParent, put = getParent)) Object* parent;
+	PROPERTY(getMesh, setMesh) Mesh* mesh;
+	PROPERTY(getTransform) Transform& transform;
+	PROPERTY(getParent, setParent) Object* parent;
 	
 	vector<Component*> GetAllComponents();
 	Material* GetMaterial();

@@ -60,12 +60,20 @@ private:
 	template<class Mat>
 	Object* LoadNode(const aiScene* scene, aiNode* node , string directory , string fileName , int* index)
 	{
-		int meshIndex = node->mMeshes[0];
-		Mesh* mesh = Mesh::GetMesh(scene->mMeshes[meshIndex], directory + '/' + fileName , *index);
-		(*index)++;
-		int matIndex = scene->mMeshes[meshIndex]->mMaterialIndex;
-		Mat* mat = new Mat(scene->mMaterials[matIndex], directory);
-		Object* object = new Object(mat, mesh);
+		Object* object;
+		if (node->mNumMeshes != 0)
+		{
+			int meshIndex = node->mMeshes[0];
+			Mesh* mesh = Mesh::GetMesh(scene->mMeshes[meshIndex], directory + '/' + fileName, *index);
+			(*index)++;
+			int matIndex = scene->mMeshes[meshIndex]->mMaterialIndex;
+			Mat* mat = new Mat(scene->mMaterials[matIndex], directory);
+			object = new Object(mat, mesh);
+		}
+		else
+		{
+			object = new Object("dasd");
+		}
 		Transform& trans = object->getTransform();
 		mat4 matrix = aiMatrix4x4ToMat4(node->mTransformation.Inverse());
 		trans.Position = vec3(matrix * vec4(trans.Position , 1));

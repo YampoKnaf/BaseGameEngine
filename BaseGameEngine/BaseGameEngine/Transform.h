@@ -39,10 +39,10 @@ public:
 	vec3 GetUp();
 	vec3 GetRight();
 
-	__declspec(property(get = GetUp)) vec3 up;
-	__declspec(property(get = GetRight)) vec3 right;
-	__declspec(property(get = GetForward)) vec3 forward;
-	__declspec(property(get = getParent, put = setParent))Transform* parent;
+	PROPERTY(GetUp) vec3 up;
+	PROPERTY(GetRight) vec3 right;
+	PROPERTY(GetForward) vec3 forward;
+	PROPERTY(getParent, put = setParent)Transform* parent;
 
 	mat4 GetModelMatrix();
 	
