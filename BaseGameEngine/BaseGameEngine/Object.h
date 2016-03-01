@@ -10,11 +10,11 @@
 class Object
 {
 public:
-	Object(Material* material = nullptr, Mesh* mesh = nullptr , Component* component = nullptr);
-	Object(Material* materia, Mesh* mesh, string name , Component* component);
-	Object(Component* component);
-	Object(string name);
+	Object(Material* material = nullptr, Mesh* mesh = nullptr);
+	Object(Material* materia, Mesh* mesh, string name);
 	Object();
+	Object(string name);
+
 	void Start();
 	void Update(double deltaTime);
 
@@ -26,8 +26,17 @@ public:
 	Material* GetMaterial();
 	
 	Material* SetMaterial(Material* material);
-	Component* AddComponent(Component* component);
 	Component* RemoveComponent(Component* component);
+
+	template<class Comp>
+	Comp* AddComponent()
+	{
+		Comp* component = new Comp();
+		m_components.push_back(component);
+		SetComponent(component, this, &this->m_transform);
+		return component;
+	}
+
 
 	Object* GetChild(int index);
 	Object* AddChild(Object* child);

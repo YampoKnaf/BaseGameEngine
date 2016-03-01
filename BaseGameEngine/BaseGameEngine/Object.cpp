@@ -1,10 +1,8 @@
 #include "Object.h"
 int Object::id_gen = 0;
 
-Object::Object(Material * material, Mesh * mesh, Component* component):m_material(material),m_mesh(mesh),m_transform(this)
+Object::Object(Material * material, Mesh * mesh):m_material(material),m_mesh(mesh),m_transform(this)
 {
-	if (component != nullptr)
-		AddComponent(component);
 	m_id = id_gen++;
 	m_name = "Object" + (char)('0' + m_id);
 }
@@ -19,12 +17,10 @@ Mesh* Object::getMesh()
 	return this->m_mesh;
 }
 
-Object::Object(Material * material, Mesh * mesh, string name, Component * component):Object(material , mesh , component)
+Object::Object(Material * material, Mesh * mesh, string name):Object(material , mesh)
 {
 	this->m_name = name;
 }
-
-Object::Object(Component * component):Object(nullptr , nullptr , component){}
 
 Object::Object(string name):m_transform(this)
 {
@@ -66,16 +62,6 @@ Mesh * Object::setMesh(Mesh * mesh)
 Material * Object::SetMaterial(Material * material)
 {
 	return this->m_material = material;
-}
-
-Component * Object::AddComponent(Component * component)
-{
-	int index = FindElementInVector(m_components, component);
-	if (index != -1)
-		return component;
-	m_components.push_back(component);
-	SetComponent(component, this, &this->m_transform);
-	return component;
 }
 
 Component * Object::RemoveComponent(Component * component)
