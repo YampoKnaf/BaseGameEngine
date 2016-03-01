@@ -79,7 +79,7 @@ void Screen::CreateWindow()
 	}
 
 	//Define the the color of the default backgraud
-	glClearColor(0, 0, 0, 0);
+	glClearColor(0.3, 0.3, 0.3, 0);
 
 	glEnable(GL_DEPTH_TEST);
 

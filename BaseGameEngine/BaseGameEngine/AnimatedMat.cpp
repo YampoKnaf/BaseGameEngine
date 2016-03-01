@@ -13,6 +13,8 @@ AnimatedMat::AnimatedMat(aiMaterial * material, string directory) : AnimatedMat(
 
 void AnimatedMat::Bind(mat4 view, mat4 model)
 {
+	shader->Use();
+	bindViewAndModelMatrix(view, model);
 }
 
 vector<Texture*> AnimatedMat::GetAllTextures()

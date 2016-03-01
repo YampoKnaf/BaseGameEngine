@@ -10,10 +10,10 @@ layout (location = 5) in vec4 bonesWeight;
 uniform mat4 view;
 uniform mat4 model;
 
-out vec3 BonesWeight;
+out vec4 BonesWeight;
 
 void main()
 {
     gl_Position = view * model * vec4(position.x , position.y , position.z , 1.0);
-	BonesWeight = bonesWeight.xyz;
+	BonesWeight = bonesWeight;
 }

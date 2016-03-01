@@ -1,9 +1,9 @@
 #version 330 core
 
-in vec3 BonesWeight;
+in vec4 BonesWeight;
 out vec4 color;
 
 void main()
 {
-    color = BonesWeight.xyzz;
+    color = BonesWeight.xyzw + BonesWeight.wyzx;
 }

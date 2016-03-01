@@ -29,6 +29,7 @@ public:
 	bool HasNormals();
 	bool HasTangens();
 	bool HasIndices();
+	bool HasBonse();
 
 	void Draw();
 private:

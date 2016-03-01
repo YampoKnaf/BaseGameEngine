@@ -32,6 +32,11 @@ bool Mesh::HasIndices()
 	return m_hasIndices;
 }
 
+bool Mesh::HasBonse()
+{
+	return m_hasBones;
+}
+
 void Mesh::Draw()
 {
 	glBindVertexArray(m_VAO);
